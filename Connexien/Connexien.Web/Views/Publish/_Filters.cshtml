@@ -1,0 +1,51 @@
+﻿@using Connexien.Web.Models
+@model PublicationModel
+@{
+
+    Model.ServiceTags = Model.ServiceTags ?? new long[0];
+    Model.ProductTags = Model.ProductTags ?? new long[0];
+
+    var sTypes = OptionModel.GetServiceTypes();
+    var pTypes = OptionModel.GetProductTypes();
+
+}
+
+<div>
+    @using (Ajax.BeginForm("Filter", "Publish", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "BeginFilter(this)", OnComplete = "CompleteFilter(xhr)" }, new { id = "form-filter", role = "form" }))
+    {
+
+        <h5  class="page-header text-muted">
+            @*<button class="btn btn-success btn-sm btn-submit pull-right" data-loading-text="Updating..." style="line-height:1;">Update Search</button>*@
+            <div id="updating" class="pull-right text-success" style="display: none;"><img src="@Url.Content("~/Content/images/loader.gif")" /></div>
+            Refine Your Search
+        </h5>
+        <h5 class="text-primary">Keywords: <small class="text-muted">(Required)</small></h5>
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+
+        <h5 class="text-primary">Services:</h5>
+        <select id="ServiceTags" name="ServiceTags" class="chosen" multiple="">
+            @foreach (var s in sTypes)
+            {
+                <optgroup label="@s.Key">
+                    @foreach (var v in s.Value)
+                    {
+                        <option value="@v.Value">@v.Text</option>
+                    }
+                </optgroup>
+            }
+        </select>
+        
+        <h5 class="text-primary">Products:</h5>
+        <select id="ProductTags" name="ProductTags" class="chosen" multiple="">
+            @foreach (var p in pTypes)
+            {
+                <optgroup label="@p.Key">
+                    @foreach (var v in p.Value)
+                    {
+                        <option value="@v.Value">@v.Text</option>
+                    }
+                </optgroup>
+            }
+        </select>
+    }
+</div>

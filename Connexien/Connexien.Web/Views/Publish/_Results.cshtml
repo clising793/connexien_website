@@ -1,0 +1,70 @@
+﻿@using Connexien.Web.Models
+@model List<PublicationModel>
+@{
+    //var sTypes = OptionModel.GetServiceTypes();
+}
+<div>
+    @if (Model == null || !Model.Any())
+    {
+        <h4 class="text-muted text-center" style="padding-top:100px">
+            No results found<br/>
+            <small>Try altering your search terms.</small>
+        </h4>
+    }
+    else
+    {
+        <h5 class="text-primary">
+            Connexien Publication Search<br />
+            <small class="text-muted">Showing @Model.Count results.</small>
+        </h5>
+                        
+        <ul class="list-group">
+            @foreach (var a in Model)
+            {
+                var services = a.ServiceTags;
+                var products = a.ProductTags;
+                var mime = a.MimeType.Replace(".", "_").Replace("/", "_").Replace("-", "_") + ".png";
+                var published = a.Published.HasValue ? a.Published.Value.ToString("MMM d, yyyy") : "";
+                       
+                                
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="@Url.Action("Index", "Profile", new { id = "" })">
+                                <img class="profile-img" style="width:40px; margin-top:10px;" src="@Url.Content("~/Content/images/mimetypes/" + mime)"/>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a href="@Url.Action("Index", "A", new {id = a.ArticleGuid})" class="btn btn-primary btn-sm pull-right" style="margin-top:10px;">Read Publication</a>
+                                        <h2 class="article-title" style="margin-top:0px;">@a.Title</h2>
+                                        <p class="article-meta text-muted">@published by <a href="@Url.Action("Index", "P", new {id = a.ProfileGuid})">@a.Authors</a></p>
+                                        <blockquote>
+                                            <p>@a.Description</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                    @*
+                                        @foreach (var s in services)
+                                        {
+                                            <span class="label label-muted label-lg" style="display: inline-block">@Model.ServiceRefs[s]</span>
+                                        }
+                                        @foreach (var pr in products)
+                                        {
+                                            <span class="label label-default label-lg" style="display: inline-block">@Model.ProductRefs[pr]</span>
+                                        }
+                                        *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>

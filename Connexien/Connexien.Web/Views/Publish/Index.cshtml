@@ -1,0 +1,84 @@
+﻿@using Connexien.Web.Models
+@model SearchModel
+@{
+    ViewBag.Title = "Connexien: Publishing";
+    Layout = "~/Views/Shared/_BgLayout.cshtml";
+
+}
+<style>
+    .chosen-container-multi .chosen-choices
+    {
+        border:0;
+        border-radius: 0px;
+        background:#fff;
+        box-shadow:none;
+        margin-top:10px;
+        font-size:16px;
+    }
+    
+    .chosen-container-multi .chosen-choices li.search-choice span {
+        line-height: 22px;
+    }
+
+    label
+    {
+        color: #fff;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="text-center" style="margin-top: 15%; color: #fff; font-weight: 300; font-size:3em;">
+                Search to find an article that’s right for you.    
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            @using (Html.BeginForm("Search", "Publish", FormMethod.Post, new { @class = "form-search", role = "form" }))
+            {
+                <div class="form-group" style="margin-top:5%; background:#fff; padding:6px; border-radius:6px;">
+                    <div class="input-group">
+                        <input name="q" type="text" class="form-control" placeholder="Enter keywords to search." style="height: 45px; font-size: 20px; border: none; box-shadow: none;"/>
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-lg btn-primary btn-submit" style="border-radius:6px;" data-loading-text="Searching...">Search</button>
+                        </div>
+                    </div>
+
+                    
+                </div>
+@*
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ProductTypes, "Select products to search for:")
+                        <select id="ProductTypes" name="ProductTypes" class="chosen" multiple="" data-selected="@string.Join(",", Model.ProductTypes)">
+                            @foreach (var p in pTypes)
+                            {
+                                <optgroup label="@p.Key">
+                                    @foreach (var v in p.Value)
+                                    {
+                                        <option value="@v.Value">@v.Text</option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                    </div>
+                    *@
+            }
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+
+        $(function () {
+            $(".chosen").chosen();
+
+            $("body").on("submit", "form", function () {
+                $(this).find(".btn-submit").button("loading");
+                $(".btn-single").disable(true);
+            });
+
+        });
+    
+    </script>
+}
